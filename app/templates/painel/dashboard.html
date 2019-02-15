@@ -1,0 +1,311 @@
+{% extends 'base_painel.html' %}
+{% load filters %}
+{% load staticfiles %}
+
+{% block content %}
+
+    <style>
+        .green {
+            color: green;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .message-item {
+            margin-bottom: 25px;
+            margin-left: 40px;
+            position: relative;
+        }
+
+        .post-meta > div {
+            color: #777;
+            font-size: 12px;
+            line-height: 22px;
+        }
+    </style>
+
+    <div class="row">
+        <div class="col-md-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ user|vendas_totais }}</h3>
+
+                    <p>Vendas Totais</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-briefcase"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-md-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>{{ user|vendas_mes }}</h3>
+
+                    <p>Vendas do Mês</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-clipboard"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-md-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>{{ user|vendas_semana }}</h3>
+
+                    <p>Vendas da Semana</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-cash"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-md-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>{{ user|caixa_atual }}</h3>
+
+                    <p>Caixa Atual</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h4 class="text-center">Registro de Entradas e Saídas</h4>
+                    <hr/>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
+                                <div class="row">
+                                    <div class="col-sm-12">
+
+                                        <script src="https://code.highcharts.com/highcharts.js"></script>
+                                        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+                                        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+                                        <div id="grafico"
+                                             style="height: 400px;"></div>
+                                        <script>
+                                            Highcharts.chart('grafico', {
+                                                chart: {
+                                                    type: 'column'
+                                                },
+                                                title: {
+                                                    text: 'Mês de {{ entradas.first.created_at|date:'F' }}'
+                                                },
+                                                xAxis: {
+                                                    categories: ['Comparativo Entrada x Saida']
+                                                },
+                                                subtitle: {},
+                                                yAxis: {
+                                                    title: {
+                                                        text: 'Valor'
+                                                    }
+                                                },
+                                                tooltip: {
+                                                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                                                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                                                    '<td style="padding:0"><b>R$ {point.y:.2f}</b></td></tr>',
+                                                    footerFormat: '</table>',
+                                                    shared: true,
+                                                    useHTML: true
+                                                },
+                                                plotOptions: {
+                                                    column: {
+                                                        pointPadding: 0.2,
+                                                        borderWidth: 0
+                                                    }
+                                                },
+                                                series: [{
+                                                    name: 'Entrada',
+                                                    data: [
+                                                        {{ entradas_totais|fix_money }}
+                                                    ]
+
+                                                }, {
+                                                    name: 'Saida',
+                                                    data: [
+                                                        {{ saidas_totais|fix_money }}
+                                                    ]
+
+                                                }]
+                                            });
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h4 class="text-center">Entradas</h4>
+                                        <table id="entradas" class="table table-bordered table-striped" class="display"
+                                               cellspacing="0" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>REF</th>
+                                                <th>VALOR</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for entrada in entradas %}
+                                                <tr>
+                                                    <td style="text-align: right;">
+                                                        <span><i class="fa fa-plus-circle" style="color: #00a7d0"></i> </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ entrada.ref }}
+                                                    </td>
+                                                    <td>
+                                                        {{ entrada.valor }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <h4 class="text-center">Saídas</h4>
+                                        <table id="saidas" class="table table-bordered table-striped" class="display"
+                                               cellspacing="0" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>REF</th>
+                                                <th>VALOR</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            {% for saida in saidas %}
+                                                <tr>
+                                                    <td style="text-align: right;">
+                                                        <span><i class="fa fa-minus-circle" style="color: #e60d0d"></i> </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ saida.ref }}
+                                                    </td>
+                                                    <td>
+                                                        {{ saida.valor }}
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h4 class="text-center">Lista de Produtos com Maior Lucro</h4>
+                    <hr/>
+                </div>
+                <div class="box-body">
+                    <div class="dataTables_wrapper form-inline dt-bootstrap" id="example1_wrapper">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="table" class="table table-bordered table-striped" class="display"
+                                       cellspacing="0" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>CODIGO</th>
+                                        <th>NOME</th>
+                                        <th>TAG</th>
+                                        <th>CATEGORIA</th>
+                                        <th>VALOR COMPRA</th>
+                                        <th>VALOR VENDA</th>
+                                        <th>LUCRO</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for produto in produtos %}
+                                        <tr>
+                                            <td>
+                                                {{ produto.id }}
+                                            </td>
+                                            <td>
+                                                {{ produto.cod_ref }}
+                                            </td>
+                                            <td>
+                                                {{ produto }}
+                                            </td>
+                                            <td>
+                                                {{ produto.tag_promo }}
+                                            </td>
+                                            <th>
+                                                {{ produto.categoria }}
+                                            </th>
+                                            <th>
+                                                {{ produto.valor_compra }}
+                                            </th>
+                                            <td>
+                                                {{ produto.valor_venda }}
+                                            </td>
+                                            <td>
+                                                {{ produto.lucro_aproximado }}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#table').DataTable({
+                responsive: true,
+                order: [[7, "desc"]]
+            });
+            $('#home').addClass('active');
+        });
+
+    </script>
+
+
+
+{% endblock %}
