@@ -4,7 +4,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 # from app.views.DashboardView import DashboardView
-from app.views.DashboardView import HomeView, ViewPost, BlogView
+from app.views.DashboardView import HomeView, ViewPost, BlogView, CategoriaView
 
 __author__ = "Caio Marinho"
 __copyright__ = "Copyright 2019"
@@ -30,6 +30,7 @@ urlpatterns = [
     url(r'^admin/login/', auth_views.login),
     url(r'^$', HomeView.as_view(), name='home'),
     url(r'^blog/$', BlogView.as_view(), name='blog'),
+    url(r'^blog/categoria/(?P<categoria_id>\d+)/$', CategoriaView.as_view(), name='categoria'),
     url(r'^blog/(?P<post_id>\d+)/$', ViewPost.as_view(), name='post'),
     url(r'^blog/(?P<slug>[-\w]+)/$', ViewPost.as_view(), name='post_slug'),
 

@@ -36,7 +36,7 @@
         <div class="container">
             <!-- Navbar Brand -->
             <div class="navbar-header d-flex align-items-center justify-content-between">
-                <!-- Navbar Brand --><a href="{% url 'home' %}" class="navbar-brand">Passiva Renda</a>
+                <!-- Navbar Brand --><a href="{% url 'home' %}" class="navbar-brand"><img src="{% static 'tema/img/namePR.png' %}" class="img-fluid"/> </a>
                 <!-- Toggle Button-->
                 <button type="button" data-toggle="collapse" data-target="#navbarcollapse"
                         aria-controls="navbarcollapse" aria-expanded="false" aria-label="Toggle navigation"
@@ -45,9 +45,9 @@
             <!-- Navbar Menu -->
             <div id="navbarcollapse" class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a href="#" class="nav-link active ">Início</a>
+                    <li class="nav-item"><a href="{% url 'home' %}" class="nav-link">Início</a>
                     </li>
-                    <li class="nav-item"><a href="#" class="nav-link ">Blog</a>
+                    <li class="nav-item"><a href="{% url 'blog' %}" class="nav-link ">Blog</a>
                     </li>
                     <li class="nav-item"><a href="#" class="nav-link ">Infográficos</a>
                     </li>
@@ -66,8 +66,8 @@
                     <li class="nav-item"><a href="#" class="nav-link ">Contato</a>
                     </li>
                 </ul>
-                <ul class="langs navbar-text"><a href="#" class="active">EN</a><span>           </span><a
-                        href="#">ES</a></ul>
+{#                <ul class="langs navbar-text"><a href="#" class="active">EN</a><span>           </span><a#}
+{#                        href="#">ES</a></ul>#}
             </div>
         </div>
     </nav>
@@ -84,17 +84,18 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="logo">
-                    <h6 class="text-white">Bootstrap Blog</h6>
+                    <h6 class="text-white">Passiva Renda</h6>
                 </div>
+                <br/>
                 <div class="contact-details">
-                    <p>53 Broadway, Broklyn, NY 11249</p>
-                    <p>Phone: (020) 123 456 789</p>
-                    <p>Email: <a href="mailto:info@company.com">Info@Company.com</a></p>
+                    <p>694 Claudio Bezerra de Lima, Tres Irmas, Campina Grande BR 58423-530</p>
+                    <p>Fone: +55 (83) 9 9177 3034</p>
+                    <p>Email: <a href="mailto:passivarendaofc@gmail.com">passivarendaofc@gmail.com</a></p>
                     <ul class="social-menu">
                         <li class="list-inline-item"><a href="#"><i class="fa fa-facebook"></i></a></li>
                         <li class="list-inline-item"><a href="#"><i class="fa fa-twitter"></i></a></li>
                         <li class="list-inline-item"><a href="#"><i class="fa fa-instagram"></i></a></li>
-                        <li class="list-inline-item"><a href="#"><i class="fa fa-behance"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fa fa-google-plus"></i></a></li>
                         <li class="list-inline-item"><a href="#"><i class="fa fa-pinterest"></i></a></li>
                     </ul>
                 </div>
@@ -102,9 +103,6 @@
             <div class="col-md-4">
                 <div class="menus d-flex">
                     <ul class="list-unstyled">
-                        <li><a href="#">My Account</a></li>
-                        <li><a href="#">Add Listing</a></li>
-                        <li><a href="#">Pricing</a></li>
                         <li><a href="#">Privacy &amp; Policy</a></li>
                     </ul>
                     <ul class="list-unstyled">
@@ -116,25 +114,46 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="latest-posts"><a href="#">
-                    <div class="post d-flex align-items-center">
-                        <div class="image"><img src="img/small-thumbnail-1.jpg" alt="..." class="img-fluid"></div>
-                        <div class="title"><strong>Hotels for all budgets</strong><span class="date last-meta">October 26, 2016</span>
-                        </div>
-                    </div>
-                </a><a href="#">
-                    <div class="post d-flex align-items-center">
-                        <div class="image"><img src="img/small-thumbnail-2.jpg" alt="..." class="img-fluid"></div>
-                        <div class="title"><strong>Great street atrs in London</strong><span class="date last-meta">October 26, 2016</span>
-                        </div>
-                    </div>
-                </a><a href="#">
-                    <div class="post d-flex align-items-center">
-                        <div class="image"><img src="img/small-thumbnail-3.jpg" alt="..." class="img-fluid"></div>
-                        <div class="title"><strong>Best coffee shops in Sydney</strong><span class="date last-meta">October 26, 2016</span>
-                        </div>
-                    </div>
-                </a></div>
+                <div class="latest-posts">
+                    {% for lat in latest %}
+                        <a href="{% url 'post_slug' lat.slug %}">
+                            <div class="post d-flex align-items-center">
+                                <div class="image"><img src="{{ lat.imagem_principal }}" alt="{{ lat.slug }}" class="img-fluid">
+                                </div>
+                                <div class="title"><strong>{{ lat.titulo }}</strong><span class="date last-meta">{{ lat.created_at|date:'d F, Y' }}</span>
+                                </div>
+                            </div>
+                        </a>
+                    {% empty %}
+                        <a href="#">
+                            <div class="post d-flex align-items-center">
+                                <div class="image"><img src="img/small-thumbnail-1.jpg" alt="..." class="img-fluid">
+                                </div>
+                                <div class="title"><strong>Hotels for all budgets</strong><span class="date last-meta">October 26, 2016</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#">
+                            <div class="post d-flex align-items-center">
+                                <div class="image"><img src="img/small-thumbnail-2.jpg" alt="..." class="img-fluid">
+                                </div>
+                                <div class="title"><strong>Great street atrs in London</strong><span
+                                        class="date last-meta">October 26, 2016</span>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="#">
+                            <div class="post d-flex align-items-center">
+                                <div class="image"><img src="img/small-thumbnail-3.jpg" alt="..." class="img-fluid">
+                                </div>
+                                <div class="title"><strong>Best coffee shops in Sydney</strong><span
+                                        class="date last-meta">October 26, 2016</span>
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+
+                </div>
             </div>
         </div>
     </div>
@@ -142,11 +161,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <p>&copy; 2017. All rights reserved. Your great site.</p>
+                    <p>&copy; All rights reserved. Passiva Renda.</p>
                 </div>
                 <div class="col-md-6 text-right">
-                    <p>Template By <a href="https://bootstraptemple.com" class="text-white">Bootstrap Temple</a>
-                        <!-- Please do not remove the backlink to Bootstrap Temple unless you purchase an attribution-free license @ Bootstrap Temple or support us at http://bootstrapious.com/donate. It is part of the license conditions. Thanks for understanding :)                         -->
+                    <p>Template By <a href="http://caiomarinho.me" target="_blank" class="text-white">Caio Marinho</a>
                     </p>
                 </div>
             </div>

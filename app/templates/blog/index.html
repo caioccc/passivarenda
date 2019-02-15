@@ -43,9 +43,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <h2>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-                        labore
-                        et dolore magna aliqua</h2><a href="#" class="hero-link">View More</a>
+                    <h2>A vida é curta demais; e temos muita coisa útil a realizar; de maneira que não se justifica a
+                        nossa preocupação em responder na altura a todas as coisas desagradáveis que ouvimos.</h2><a
+                        href="#.divider" class="hero-link">Napoleon Hill</a>
                 </div>
             </div>
         </div>
@@ -60,7 +60,7 @@
                     seção Blog.</p>
             </header>
             <div class="row">
-                {% for post in posts %}
+                {% for post in latest %}
                     <div class="post col-md-4">
                         <div class="post-thumbnail"><a href="{% url 'post_slug' post.slug %}"><img
                                 src="{{ post.imagem_principal }}" alt="{{ post.titulo }}"
@@ -133,16 +133,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h2>Subscribe to Newsletter</h2>
-                    <p class="text-big">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna aliqua.</p>
+                    <h2>Inscreva-se para receber Novidades</h2>
+                    <p class="text-big">Sua participação é importante para nós, inscreva-se!</p>
                 </div>
                 <div class="col-md-8">
                     <div class="form-holder">
                         <form action="#">
                             <div class="form-group">
-                                <input type="email" name="email" id="email" placeholder="Type your email address">
-                                <button type="submit" class="submit">Subscribe</button>
+                                <input type="email" name="email" id="email" placeholder="Coloque seu melhor email">
+                                <button type="submit" class="submit">Inscrever</button>
                             </div>
                         </form>
                     </div>

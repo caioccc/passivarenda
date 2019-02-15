@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib.auth.models import User
 from django.db import models
+from ckeditor.fields import RichTextField
 
 
 class TimeStamped(models.Model):
@@ -38,7 +39,7 @@ class Post(TimeStamped):
     slug = models.SlugField(blank=True)
     tags = models.ManyToManyField(Tag)
     titulo = models.CharField(max_length=200, blank=True, null=True)
-    texto = models.TextField(blank=True, null=True)
+    texto = RichTextField(config_name='awesome_ckeditor', blank=True, null=True)
     resumo = models.TextField(blank=True, null=True)
     imagem_principal = models.URLField(blank=True, null=True)
     autor = models.CharField(max_length=300, blank=True, null=True, default='Caio Marinho')
