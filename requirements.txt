@@ -7,4 +7,4 @@ whitenoise==2.0.6
 pyimgur
 django-money==0.14.4
 django-suit==0.2.25
-django-ckeditor
+django-ckeditor==5.3.0
