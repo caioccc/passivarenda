@@ -6,6 +6,9 @@ from django.views.generic import TemplateView
 # from app.models import Venda, Produto, Entrada, Saida
 
 
+class HomeView(TemplateView):
+    template_name = 'blog/index.html'
+
 # class DashboardView(LoginRequiredMixin, TemplateView):
 #     template_name = 'painel/dashboard.html'
 #     login_url = '/adminlogin/'

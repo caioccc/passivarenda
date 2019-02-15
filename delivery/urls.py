@@ -4,6 +4,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 
 # from app.views.DashboardView import DashboardView
+from app.views.DashboardView import HomeView
 
 __author__ = "Caio Marinho"
 __copyright__ = "Copyright 2019"
@@ -25,7 +26,7 @@ Including another URLconf
 """
 
 urlpatterns = [
-    url(r'^', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^admin/login/', auth_views.login),
-    # url(r'^', DashboardView.as_view(), name='home'),
+    url(r'^', HomeView.as_view(), name='home'),
 ]
