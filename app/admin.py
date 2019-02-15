@@ -21,7 +21,7 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = (
         'created_at', 'titulo'
     )
-    list_display = ('id', 'categoria', 'titulo', 'resumo', 'autor', 'views', 'comments')
+    list_display = ('id', 'categoria', 'titulo', 'slug', 'resumo', 'autor', 'views', 'comments')
 
 
 admin.site.register(Categoria, CategoriaAdmin)

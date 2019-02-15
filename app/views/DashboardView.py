@@ -1,13 +1,40 @@
 from datetime import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView, DetailView
 
 # from app.models import Venda, Produto, Entrada, Saida
+from app.models import Post
 
 
 class HomeView(TemplateView):
     template_name = 'blog/index.html'
+
+    def get_context_data(self, **kwargs):
+        posts = Post.objects.all().order_by('?')
+        if posts.count() > 3:
+            kwargs['posts'] = posts[3]
+        else:
+            kwargs['posts'] = posts
+        return super(HomeView, self).get_context_data(**kwargs)
+
+
+
+class ViewPost(DetailView):
+    model = Post
+    template_name = 'blog/post.html'
+    pk_url_kwarg = 'post_id'
+    slug_url_kwarg = 'slug'
+    query_pk_and_slug = True
+
+
+class BlogView(ListView):
+    template_name = 'blog/blog.html'
+    model = Post
+    ordering = '-created_at'
+    paginate_by = 7
+
+
 
 # class DashboardView(LoginRequiredMixin, TemplateView):
 #     template_name = 'painel/dashboard.html'
