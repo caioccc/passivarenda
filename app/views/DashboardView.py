@@ -69,3 +69,7 @@ class BlogView(ListView):
         else:
             kwargs['latest'] = latest
         return super(BlogView, self).get_context_data(**kwargs)
+
+
+class ContactView(TemplateView):
+    template_name = 'blog/contact.html'
