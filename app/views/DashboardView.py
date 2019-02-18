@@ -9,7 +9,7 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         posts = Post.objects.all().order_by('?')
         if posts.count() > 3:
-            kwargs['latest'] = posts[3]
+            kwargs['latest'] = posts
         else:
             kwargs['latest'] = posts
         return super(HomeView, self).get_context_data(**kwargs)
@@ -27,7 +27,7 @@ class ViewPost(DetailView):
         kwargs['categorias'] = Categoria.objects.all()
         kwargs['tags'] = Tag.objects.all()
         if latest.count() > 3:
-            kwargs['latest'] = latest[3]
+            kwargs['latest'] = latest
         else:
             kwargs['latest'] = latest
         return super(ViewPost, self).get_context_data(**kwargs)
@@ -47,7 +47,7 @@ class CategoriaView(ListView):
         kwargs['categorias'] = Categoria.objects.all()
         kwargs['tags'] = Tag.objects.all()
         if latest.count() > 3:
-            kwargs['latest'] = latest[3]
+            kwargs['latest'] = latest
         else:
             kwargs['latest'] = latest
         return super(CategoriaView, self).get_context_data(**kwargs)
@@ -65,7 +65,7 @@ class BlogView(ListView):
         kwargs['categorias'] = Categoria.objects.all()
         kwargs['tags'] = Tag.objects.all()
         if latest.count() > 3:
-            kwargs['latest'] = latest[3]
+            kwargs['latest'] = latest
         else:
             kwargs['latest'] = latest
         return super(BlogView, self).get_context_data(**kwargs)
