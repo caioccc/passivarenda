@@ -1,7 +1,11 @@
+from django.urls import reverse
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+from django.views.generic import FormView
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.base import ContextMixin
 
-from app.models import Post, Categoria, Tag
+from app.models import Post, Categoria, Tag, Email
 
 
 class CustomContextHomeMixin(ContextMixin):
@@ -37,6 +41,34 @@ class ViewPost(DetailView, CustomContextBlogMixin):
     query_pk_and_slug = True
 
 
+class ViewCapturaPlanilha(CreateView, CustomContextBlogMixin):
+    model = Email
+    context_object_name = 'email'
+    fields = ['email']
+    template_name = 'blog/captura_planilha.html'
+
+    def get_success_url(self):
+        return reverse('post_download', kwargs={'post_id': self.kwargs['post_id']})
+
+    def get_context_data(self, **kwargs):
+        kwargs['post'] = Post.objects.get(pk=self.kwargs['post_id'])
+        return super(ViewCapturaPlanilha, self).get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        return super(ViewCapturaPlanilha, self).form_valid(form)
+
+    def form_invalid(self, form):
+        return super(ViewCapturaPlanilha, self).form_invalid(form)
+
+
+class ViewPostDownload(DetailView, CustomContextBlogMixin):
+    model = Post
+    template_name = 'blog/post_download.html'
+    pk_url_kwarg = 'post_id'
+    slug_url_kwarg = 'slug'
+    query_pk_and_slug = True
+
+
 class CategoriaView(ListView, CustomContextBlogMixin):
     template_name = 'blog/blog.html'
     model = Post
@@ -53,25 +85,6 @@ class BlogView(CategoriaView):
     def get_queryset(self):
         return Post.objects.all()
 
-
-# class InfograficoView(ListView):
-#     template_name = 'blog/blog.html'
-#     model = Post
-#     paginate_by = 6
-#     context_object_name = 'posts'
-#
-#     def get_queryset(self):
-#         return Post.objects.filter(categoria__categoria__contains='Info').order_by('?')
-#
-#     def get_context_data(self, **kwargs):
-#         latest = Post.objects.all().order_by('?')
-#         kwargs['categorias'] = Categoria.objects.all()
-#         kwargs['tags'] = Tag.objects.all()
-#         if latest.count() > 3:
-#             kwargs['latest'] = latest[:3]
-#         else:
-#             kwargs['latest'] = latest
-#         return super(InfograficoView, self).get_context_data(**kwargs)
 
 class InfograficoView(CategoriaView):
     def get_queryset(self):

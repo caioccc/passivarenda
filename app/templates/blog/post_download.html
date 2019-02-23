@@ -34,12 +34,13 @@
                             </div>
                             <div class="post-body">
                                 {{ post.texto|safe }}
+
                                 {% if post.link_download %}
                                     <p style="text-align:center">
                                         <a class="btn btn-primary"
-                                           href="{% url 'captura_planilha' post.id %}"
-                                        >
-                                            <i class='fa fa-download'></i> Download</a>
+                                                                    href="{{ post.link_download }}"
+                                                                    target="_blank">
+                                            <i class='fa fa-download'></i> Baixar Agora</a>
                                     </p>
                                 {% endif %}
                             </div>
@@ -53,6 +54,7 @@
                                     <a href="#" class="tag">#Economy</a>
                                 {% endfor %}
                             </div>
+
                         </div>
                     </div>
                 </div>

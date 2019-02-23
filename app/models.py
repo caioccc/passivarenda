@@ -24,6 +24,10 @@ class Categoria(TimeStamped):
         return "%s" % self.categoria
 
 
+class Email(TimeStamped):
+    email = models.EmailField()
+
+
 class Tag(TimeStamped):
     tag = models.CharField(max_length=200, blank=True, null=True, verbose_name='Tag')
 
@@ -38,6 +42,7 @@ class Post(TimeStamped):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     slug = models.SlugField(blank=True)
     tags = models.ManyToManyField(Tag)
+    link_download = models.URLField(blank=True, null=True)
     titulo = models.CharField(max_length=200, blank=True, null=True)
     texto = RichTextField(config_name='awesome_ckeditor', blank=True, null=True)
     resumo = models.TextField(blank=True, null=True)

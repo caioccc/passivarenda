@@ -1,4 +1,4 @@
-{% extends 'base_error.html' %}
+{% extends 'blog/base.html' %}
 {% load staticfiles %}
 
 {% block content %}
@@ -22,15 +22,5 @@
 
     </section>
 
-
-
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('#btn_cancelar').click(function () {
-                return window.history.back();
-            });
-        });
-    </script>
 
 {% endblock %}

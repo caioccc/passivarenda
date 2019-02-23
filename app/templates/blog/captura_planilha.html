@@ -33,15 +33,35 @@
                                 </div>
                             </div>
                             <div class="post-body">
-                                {{ post.texto|safe }}
-                                {% if post.link_download %}
-                                    <p style="text-align:center">
-                                        <a class="btn btn-primary"
-                                           href="{% url 'captura_planilha' post.id %}"
-                                        >
-                                            <i class='fa fa-download'></i> Download</a>
-                                    </p>
-                                {% endif %}
+                                <div class="row centered-form">
+                                    <div class="col-xs-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title">Para baixar, preencha o formulário com seu Email
+                                                </h3>
+                                                <p>É Gratuito!</p>
+                                            </div>
+                                            <div class="panel-body">
+                                                <form action="" method="post">{% csrf_token %}
+
+                                                    <div class="form-group">
+                                                        <input type="email" name="email" id="email"
+                                                               class="form-control input-sm"
+                                                               placeholder="Email">
+                                                        {{ form.non_field_errors }}
+                                                        <div class="fieldWrapper">
+                                                            {{ form.email.errors }}
+                                                        </div>
+                                                    </div>
+
+                                                    <input type="submit" value="Enviar"
+                                                           class="btn btn-info btn-block">
+
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="post-tags">
                                 {% for tag in post.tags.all %}
@@ -58,8 +78,6 @@
                 </div>
             </main>
             <aside class="col-lg-4">
-                <!-- Widget [Search Bar Widget]-->
-                <!-- Widget [Latest Posts Widget]        -->
                 <div class="widget latest-posts">
                     <header>
                         <h3 class="h6">Últimos Posts</h3>
