@@ -1,7 +1,5 @@
 from django.urls import reverse
-from django.urls import reverse_lazy
 from django.views.generic import CreateView
-from django.views.generic import FormView
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.base import ContextMixin
 
